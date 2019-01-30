@@ -5,27 +5,22 @@ import Table from 'react-bootstrap/Table'
 
 class Accounts extends Component {
 
-  componentDidMount(){
-
-  }
-
 
   render() {
-    // console.log(this.props.accounts.accounts.accounts)
-    let accountList = this.props.accounts.accounts.accounts.map(account =>{
-            return (
-                <tr key={account.type}>
-                  <td>{account.type}</td>
-                  <td>${account.amount}</td>
-                </tr>
-          )
-        })
+    console.log(this.props.accounts)
+    let accountList = Object.keys(this.props.accounts.accounts).map(account =>{
+      return (
+        <tr key={this.props.accounts.accounts[account].type}>
+          <td>{this.props.accounts.accounts[account].type}</td>
+          <td>${this.props.accounts.accounts[account].amount}</td>
+        </tr>
+    )
+    })
     return (
       <div>
-
         <Table striped bordered hover variant="light">
         <tbody>
-          {accountList}
+        {accountList}
           </tbody>
         </Table>
       </div>
@@ -34,7 +29,7 @@ class Accounts extends Component {
 }
 const mapStateToProps = state => {
   return{
-    accounts: state
+    accounts: state.accounts
   }
 }
 

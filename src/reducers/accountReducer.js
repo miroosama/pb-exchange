@@ -1,15 +1,25 @@
 const defaultState = {
-  accounts: [
-    {type:"USD", amount: 1000},
-    {type:"EUR", amount: 0},
-    {type:"CHF", amount: 0}
-  ]
-
+  accounts: {
+    1:{type:"EUR", amount: 1000}
+  },
+  history: []
 
 }
 
 const accountReducer = (state=defaultState, action) => {
-  return state
+  // console.log(action.payload.newAccount)
+  let index = (Object.keys(state.accounts).length += 1)
+  switch(action.type){
+    case "ADD_ACCOUNT":
+    return {...state,
+      accounts: Object.assign(state.accounts, action.payload.newAccount)
+    }
+    case "UPDATE_ACCOUNT":
+    return {...state,
+      accounts: "no"
+    }
+    default: return state
+  }
 }
 
 export default accountReducer

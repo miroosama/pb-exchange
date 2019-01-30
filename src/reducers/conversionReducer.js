@@ -3,7 +3,6 @@ const defaultState = {
 }
 
 export default function conversionReducer(state = defaultState, action){
-  console.log("here", action)
   switch(action.type){
     case "CONVERSIONS":
     return {...state,
