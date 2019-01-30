@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Accounts from './components/accounts'
+import Navbar from 'react-bootstrap/Navbar'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="App" >
+          <Navbar bg="dark" variant="dark" expand="lg">
+             <Navbar.Brand bg="light">Paybear Exchange</Navbar.Brand>
+          </Navbar>
+          <Accounts />
       </div>
     );
   }
