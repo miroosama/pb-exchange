@@ -4,12 +4,16 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createStore } from 'redux'
-import rootReducer from './reducers/rootReducer'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import ReduxThunk from 'redux-thunk'
+import accountReducer from './reducers/accountReducer'
+import conversionReducer from './reducers/conversionReducer'
 import { Provider } from 'react-redux'
-import { Button } from 'react-bootstrap';
 
-const store =  createStore(rootReducer)
+
+const rootReducer = combineReducers({accounts: accountReducer, conversions: conversionReducer})
+
+const store =  createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
