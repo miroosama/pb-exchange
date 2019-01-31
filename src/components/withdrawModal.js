@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import { updateAccountAction } from '../actions/actions'
 
 
-class DepositModal extends Component {
+class WithdrawModal extends Component {
 
   state = {
     addType: "Account",
@@ -31,7 +31,7 @@ class DepositModal extends Component {
     let value = parseInt(this.state.value)
     let rate = parseInt(this.state.addRate)
     let newAccount = this.props.accounts.accounts
-    newAccount[this.state.index] = {type:this.state.addType, amount:(rate + value)}
+    newAccount[this.state.index] = {type:this.state.addType, amount:(rate - value)}
     console.log(newAccount, value)
     this.props.updateAccountAction(newAccount)
     this.props.closeModal("addModal")
@@ -75,7 +75,7 @@ class DepositModal extends Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => {this.props.closeModal("depositModal")}}>Close</Button>
+            <Button variant="secondary" onClick={() => {this.props.closeModal("withdrawModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>
           </Modal.Footer>
         </Modal.Dialog>;
@@ -90,4 +90,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { updateAccountAction } )(DepositModal);
+export default connect(mapStateToProps, { updateAccountAction } )(WithdrawModal);

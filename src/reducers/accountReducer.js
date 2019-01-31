@@ -8,7 +8,6 @@ const defaultState = {
 
 const accountReducer = (state=defaultState, action) => {
   // console.log(action.payload.newAccount)
-  let index = (Object.keys(state.accounts).length += 1)
   switch(action.type){
     case "ADD_ACCOUNT":
     return {...state,
