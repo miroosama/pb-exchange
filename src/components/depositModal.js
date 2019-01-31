@@ -4,31 +4,36 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import { addAccountAction} from '../actions/actions'
+import { updateAccountAction } from '../actions/actions'
 
 
-class AddAccountModal extends Component {
+class DepositModal extends Component {
 
   state = {
     addType: "Account",
     addRate: "",
-    value: ""
+    value: "",
+    index: ""
   }
 
   handleSelection = (event) => {
-
+    console.dir(event.target.attributes[3].value)
+    console.dir(event.target.id)
+    console.dir(event.target)
     this.setState({
       addType: event.target.id,
-      addRate: event.target.attributes[2].value
+      addRate: event.target.attributes[3].value,
+      index: event.target.type
     })
   }
 
   handleSave = () => {
-    let index = (Object.keys(this.props.accounts.accounts).length += 1)
-    let newAccount = {}
-    newAccount[index] = {type: this.state.addType, amount:parseInt(this.state.value)}
-    console.log(newAccount)
-    this.props.addAccountAction(newAccount)
+    let value = parseInt(this.state.value)
+    let rate = parseInt(this.state.addRate)
+    let newAccount = this.props.accounts.accounts
+    newAccount[this.state.index] = {type:this.state.addType, amount:(rate + value)}
+    console.log(newAccount, value)
+    this.props.updateAccountAction(newAccount)
     this.props.closeModal("addModal")
   }
 
@@ -38,20 +43,12 @@ class AddAccountModal extends Component {
 
 
   render() {
-    console.log(Object.keys(this.props.accounts.accounts).length)
-    console.log(this.props.conversions.conversions)
-        let accountsFilter = Object.keys(this.props.accounts.accounts).map(acc =>{
-                return Object.keys(this.props.conversions.conversions).filter(account =>{
-                  if(account !== this.props.accounts.accounts[acc].type){
-                    return account
-                  }
-                })
-            })
-      let accountsDropdown = accountsFilter[0].map(account =>{
-              return (
-                <Dropdown.Item bsprefix="dropdown" id={account} key={account} value={this.props.conversions.conversions[account]} onClick={this.handleSelection}>{account}</Dropdown.Item>
-            )
-          })
+    let accountList = Object.keys(this.props.accounts.accounts).map(account =>{
+      return (
+        <Dropdown.Item bsprefix="dropdown" type={account} id={this.props.accounts.accounts[account].type} key={this.props.accounts.accounts[account].type} value={this.props.accounts.accounts[account].amount} onClick={this.handleSelection}>{this.props.accounts.accounts[account].type}</Dropdown.Item>
+
+    )
+    })
     return (
       <div>
         <Modal.Dialog>
@@ -66,7 +63,7 @@ class AddAccountModal extends Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
-                {accountsDropdown}
+                {accountList}
               </Dropdown.Menu>
             </Dropdown>
             <Form onChange={this.handleChange}>
@@ -93,4 +90,13 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { addAccountAction } )(AddAccountModal);
+export default connect(mapStateToProps, { updateAccountAction } )(DepositModal);
+
+// let index = (Object.keys(this.props.accounts.accounts).length += 1)
+// let newAccount = index:{type:this.state.addType, amount:parseInt(this.state.value)}
+// this.props.addAccountAction(newAccount)
+// this.props.closeModal("addModal")
+// let index = (Object.keys(this.props.accounts.accounts).length += 1)
+// let newAccount = (this.props.accounts.accounts[index] ={type:this.state.addType, amount:parseInt(this.state.value)}
+// this.props.addAccountAction(newAccount)
+// this.props.closeModal("addModal")

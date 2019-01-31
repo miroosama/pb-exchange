@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Accounts from './components/accounts'
 import TransactionModal from './components/transactionModal'
 import AddAccountModal from './components/addAccountModal'
+import DepositModal from './components/depositModal'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux"
@@ -11,7 +12,8 @@ class App extends Component {
 
   state = {
     transactionModalOpen: false,
-    addModalOpen: false
+    addModalOpen: false,
+    depositModalOpen: false
   }
 
   componentDidMount(){
@@ -32,6 +34,10 @@ class App extends Component {
     this.setState({ addModalOpen: !this.state.addModalOpen })
   }
 
+  handleDeposit = () => {
+    this.setState({ depositModalOpen: !this.state.depositModalOpen })
+  }
+
   handleCloseModal = (modal) => {
     if(modal === "addModal"){
     this.setState({addModalOpen: false})
@@ -48,11 +54,13 @@ class App extends Component {
              <Navbar.Brand bg="light">Paybear Exchange</Navbar.Brand>
              <Button onClick={this.handleTransfer} variant="outline-success">Transfer</Button>
              <Button onClick={this.handleAdd} variant="outline-success">Add Account</Button>
+             <Button onClick={this.handleDeposit} variant="outline-success">Deposit</Button>
           </Navbar>
           <h1>Accounts</h1>
           <Accounts />
           {this.state.transactionModalOpen ? <TransactionModal /> : null}
           {this.state.addModalOpen ? <AddAccountModal closeModal={this.handleCloseModal} /> : null}
+          {this.state.depositModalOpen ? <DepositModal closeModal={this.handleCloseModal} /> : null}
       </div>
     );
   }
