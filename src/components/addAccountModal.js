@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
 import { addAccountAction} from '../actions/actions'
 
 
@@ -12,24 +13,39 @@ class AddAccountModal extends Component {
   state = {
     addType: "Account",
     addRate: "",
-    value: ""
+    value: "",
+    error: false
   }
 
   handleSelection = (event) => {
-
     this.setState({
       addType: event.target.id,
       addRate: event.target.attributes[2].value
     })
   }
 
+  duplicateCheck = () => {
+    let existing = Object.keys(this.props.accounts.accounts).map(acc=>{
+      return this.props.accounts.accounts[acc].type
+    })
+    return existing
+  }
+
+
   handleSave = () => {
-    let index = (Object.keys(this.props.accounts.accounts).length += 1)
-    let newAccount = {}
-    newAccount[index] = {type: this.state.addType, amount:parseInt(this.state.value)}
-    console.log(newAccount)
-    this.props.addAccountAction(newAccount)
-    this.props.closeModal("addModal")
+    let check = this.duplicateCheck()
+    if(check.some(acc => acc === this.state.addType)){
+      this.setState({error: true})
+      // this.props.closeModal("addModal")
+    } else {
+      let index = (Object.keys(this.props.accounts.accounts).length += 1)
+      let newAccount = {}
+      newAccount[index] = {type: this.state.addType, amount:parseInt(this.state.value)}
+      console.log(newAccount)
+      this.props.addAccountAction(newAccount)
+      this.props.closeModal("addModal")
+
+    }
   }
 
   handleChange = (e) => {
@@ -40,18 +56,11 @@ class AddAccountModal extends Component {
   render() {
     console.log(Object.keys(this.props.accounts.accounts).length)
     console.log(this.props.conversions.conversions)
-        let accountsFilter = Object.keys(this.props.accounts.accounts).map(acc =>{
-                return Object.keys(this.props.conversions.conversions).filter(account =>{
-                  if(account !== this.props.accounts.accounts[acc].type){
-                    return account
-                  }
-                })
-            })
-      let accountsDropdown = accountsFilter[0].map(account =>{
-              return (
-                <Dropdown.Item bsprefix="dropdown" id={account} key={account} value={this.props.conversions.conversions[account]} onClick={this.handleSelection}>{account}</Dropdown.Item>
-            )
-          })
+    let accountsDropdown = Object.keys(this.props.conversions.conversions).map(account =>{
+            return (
+              <Dropdown.Item bsprefix="dropdown" id={account} key={account} value={this.props.conversions.conversions[account]} onClick={this.handleSelection}>{account}</Dropdown.Item>
+          )
+        })
     return (
       <div>
         <Modal.Dialog>
@@ -81,7 +90,10 @@ class AddAccountModal extends Component {
             <Button variant="secondary" onClick={() => {this.props.closeModal("addModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>
           </Modal.Footer>
-        </Modal.Dialog>;
+        </Modal.Dialog>
+        {this.state.error ? <Alert dismissible variant="danger">
+            <Alert.Heading>Account already exists</Alert.Heading>
+        </Alert> : null}
       </div>
     );
   }

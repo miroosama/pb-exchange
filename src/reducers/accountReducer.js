@@ -12,7 +12,7 @@ const accountReducer = (state=defaultState, action) => {
   switch(action.type){
     case "ADD_ACCOUNT":
     return {...state,
-      accounts: Object.assign({}, state.accounts, action.payload.newAccount),
+      accounts: Object.assign(state.accounts, action.payload.newAccount),
       history: state.history.concat(action.payload.newAccount)
     }
     case "UPDATE_ACCOUNT":

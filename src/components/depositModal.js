@@ -91,12 +91,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, { updateAccountAction } )(DepositModal);
-
-// let index = (Object.keys(this.props.accounts.accounts).length += 1)
-// let newAccount = index:{type:this.state.addType, amount:parseInt(this.state.value)}
-// this.props.addAccountAction(newAccount)
-// this.props.closeModal("addModal")
-// let index = (Object.keys(this.props.accounts.accounts).length += 1)
-// let newAccount = (this.props.accounts.accounts[index] ={type:this.state.addType, amount:parseInt(this.state.value)}
-// this.props.addAccountAction(newAccount)
-// this.props.closeModal("addModal")
