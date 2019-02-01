@@ -4,37 +4,41 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import { updateAccountAction } from '../actions/actions'
+import Alert from 'react-bootstrap/Alert'
+import { updateAccountAction, transferAccountHistoryAction } from '../actions/actions'
 
 
 class DepositModal extends Component {
 
   state = {
-    addType: "Account",
-    addRate: "",
+    depType: "Account",
+    balance: "",
     value: "",
-    index: ""
+    index: "",
+    alert: false
   }
 
   handleSelection = (event) => {
-    console.dir(event.target.attributes[3].value)
-    console.dir(event.target.id)
-    console.dir(event.target)
     this.setState({
-      addType: event.target.id,
-      addRate: event.target.attributes[3].value,
+      depType: event.target.id,
+      balance: event.target.attributes[3].value,
       index: event.target.type
     })
   }
 
   handleSave = () => {
-    let value = parseInt(this.state.value)
-    let rate = parseInt(this.state.addRate)
-    let newAccount = this.props.accounts.accounts
-    newAccount[this.state.index] = {type:this.state.addType, amount:(rate + value)}
-    console.log(newAccount, value)
-    this.props.updateAccountAction(newAccount)
-    this.props.closeModal("addModal")
+      if(this.state.depType !== "Account" && this.state.value > 0){
+      let value = parseInt(this.state.value)
+      let rate = parseInt(this.state.balance)
+      let newAccount = this.props.accounts.accounts
+      newAccount[this.state.index] = {type:this.state.depType, amount:(rate + value), event: "Deposit"}
+      console.log(newAccount, value)
+      this.props.updateAccountAction(newAccount)
+      this.props.transferAccountHistoryAction({type:this.state.depType, amount:(value), event: "Deposit"})
+      this.props.closeModal("depositModal")
+    } else {
+      this.setState({ error: true })
+    }
   }
 
   handleChange = (e) => {
@@ -53,13 +57,13 @@ class DepositModal extends Component {
       <div>
         <Modal.Dialog>
           <Modal.Header>
-            <Modal.Title>Add Account</Modal.Title>
+            <Modal.Title>Deposit</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Dropdown>
               <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.addType}
+                {this.state.depType}
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
@@ -79,6 +83,9 @@ class DepositModal extends Component {
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>
           </Modal.Footer>
         </Modal.Dialog>;
+        {this.state.error ? <Alert dismissible variant="danger">
+            <Alert.Heading>Select account and enter amount</Alert.Heading>
+        </Alert> : null}
       </div>
     );
   }
@@ -90,4 +97,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { updateAccountAction } )(DepositModal);
+export default connect(mapStateToProps, { updateAccountAction, transferAccountHistoryAction } )(DepositModal);

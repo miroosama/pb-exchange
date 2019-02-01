@@ -4,99 +4,87 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import { updateAccountAction } from '../actions/actions'
+import Alert from 'react-bootstrap/Alert'
+import { transferAccountAction, transferAccountHistoryAction } from '../actions/actions'
 
 
 class TransactionModal extends Component {
 
   state = {
-    addType: "Account",
-    addRate: "",
-    value: "",
+    txType: "Account",
+    balance: "",
+    value: 0,
     index: "",
-    addType2: "Account",
-    addRate2: "",
+    txType2: "Account",
+    balance2: "",
     index2: "",
-    convertedValue: ""
+    convertedValue: "",
+    error: false
   }
 
   handleSelection = (event) => {
-    // console.dir(event.target.attributes[3].value)
-    // console.dir(event.target.id)
-    // console.dir(event.target)
     this.setState({
-      addType: event.target.id,
-      addRate: event.target.attributes[3].value,
+      txType: event.target.id,
+      balance: event.target.attributes[3].value,
       index: event.target.type
     })
   }
 
   handleSelection2 = (event) => {
-    console.dir(event.target.attributes[3].value)
-    console.dir(event.target.id)
-    console.dir(event.target)
     this.setState({
-      addType2: event.target.id,
-      addRate2: event.target.attributes[3].value,
+      txType2: event.target.id,
+      balance2: event.target.attributes[3].value,
       index2: event.target.type
     })
   }
 
   handleSave = () => {
-    // let value = parseInt(this.state.value)
-    // let rate = parseInt(this.state.addRate)
-    // let newAccount = this.props.accounts.accounts
-    // newAccount[this.state.index] = {type:this.state.addType, amount:(rate + value)}
-    // console.log(newAccount, value)
-    // this.props.updateAccountAction(newAccount)
-    // this.props.closeModal("addModal")
-    //
-    let value = parseFloat(this.state.value)
-    let rate = parseFloat(this.state.addRate)
-    let newAccount = this.props.accounts.accounts
-    newAccount[this.state.index] = {type:this.state.addType, amount:(rate - value)}
-    console.log(newAccount, value)
-    this.props.updateAccountAction(newAccount)
-    // this.props.closeModal("addModal")
-
-    // let value2 = parseInt(this.state.value2)
-    // let rate2 = parseInt(this.state.addRate2)
-    // let newAccount2 = this.props.accounts.accounts
-    // newAccount[this.state.index2] = {type:this.state.addType2, amount:(rate2 + value)}
-    // console.log(newAccount, value)
-    // this.props.updateAccountAction(newAccount2)
-    // this.props.closeModal("addModal")
-    this.exchange()
-
-  }
-
-  exchange = () =>{
-      if(this.state.addType === "EUR"){
-        let conversionRate = this.props.conversions.conversions[this.state.addType2]
-        let value = parseFloat(this.state.value)
-        let convertedValue = value * conversionRate
-        this.completedExchange(convertedValue)
-      } else if(this.state.addType !== "EUR" && this.state.addType2 !== "EUR") {
-        let conversionRate = this.props.conversions.conversions[this.state.addType]
-        let value = parseFloat(this.state.value)
-        let convertedToBase = value/conversionRate
-        let conversionRate2 = this.props.conversions.conversions[this.state.addType2]
-        let convertedValue = convertedToBase * conversionRate2
-        this.completedExchange(convertedValue)
-      } else {
-        let conversionRate = this.props.conversions.conversions[this.state.addType]
-        let value = parseFloat(this.state.value)
-        let convertedToBase = value/conversionRate
-        this.completedExchange(convertedToBase)
+    if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2)){
+      let value = parseFloat(this.state.value)
+      let rate = parseFloat(this.state.balance)
+      let newAccount = this.props.accounts.accounts
+      newAccount[this.state.index] = {type:this.state.txType, amount:(rate - value)}
+      this.props.transferAccountAction(newAccount)
+      this.exchange()
+    }else {
+        this.setState({ error: true })
       }
   }
 
+  exchange = () =>{
+    if(this.state.txType === "EUR"){
+      let conversionRate = this.props.conversions.conversions[this.state.txType2]
+      let value = parseFloat(this.state.value)
+      let convertedValue = value * conversionRate
+      this.completedExchange(convertedValue)
+    } else if(this.state.txType !== "EUR" && this.state.txType2 !== "EUR") {
+      let conversionRate = this.props.conversions.conversions[this.state.txType]
+      let value = parseFloat(this.state.value)
+      let convertedToBase = value/conversionRate
+      let conversionRate2 = this.props.conversions.conversions[this.state.txType2]
+      let convertedValue = convertedToBase * conversionRate2
+      this.completedExchange(convertedValue)
+    } else {
+      let conversionRate = this.props.conversions.conversions[this.state.txType]
+      let value = parseFloat(this.state.value)
+      let convertedToBase = value/conversionRate
+      this.completedExchange(convertedToBase)
+    }
+  }
+
   completedExchange = (convertedValue) => {
-    let rate2 = parseFloat(this.state.addRate2)
-    console.log(rate2)
-    let newAccount2 = this.props.accounts.accounts
-    newAccount2[this.state.index2] = {type:this.state.addType2, amount:(rate2 + convertedValue)}
-    this.props.updateAccountAction(newAccount2)
+      if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2)){
+      let rate2 = parseFloat(this.state.balance2)
+      console.log("here")
+      let newAccount2 = this.props.accounts.accounts
+      newAccount2[this.state.index2] = {type:this.state.txType2, amount:(rate2 + convertedValue)}
+      this.props.transferAccountAction(newAccount2)
+      let accHistory = {from: this.state.txType, to:this.state.txType2, amount: convertedValue, event:"transfer"}
+      this.props.transferAccountHistoryAction(accHistory)
+      this.props.closeModal("transactionModal")
+    } else {
+      this.setState({ error: true })
+    }
   }
 
   handleChange = (e) => {
@@ -105,7 +93,6 @@ class TransactionModal extends Component {
 
 
   render() {
-    console.log(this.state)
     let accountList = Object.keys(this.props.accounts.accounts).map(account =>{
       return (
         <Dropdown.Item bsprefix="dropdown" type={account} id={this.props.accounts.accounts[account].type} key={this.props.accounts.accounts[account].type} value={this.props.accounts.accounts[account].amount} onClick={this.handleSelection}>{this.props.accounts.accounts[account].type}</Dropdown.Item>
@@ -123,13 +110,13 @@ class TransactionModal extends Component {
       <div>
         <Modal.Dialog>
           <Modal.Header>
-            <Modal.Title>Add Account</Modal.Title>
+            <Modal.Title>Transfer</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Dropdown>
               <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.addType}
+                {this.state.txType}
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
@@ -144,7 +131,7 @@ class TransactionModal extends Component {
             </Form>
             <Dropdown>
               <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.addType2}
+                {this.state.txType2}
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
@@ -154,10 +141,13 @@ class TransactionModal extends Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => {this.props.closeModal("depositModal")}}>Close</Button>
+            <Button variant="secondary" onClick={() => {this.props.closeModal("transactionModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>
           </Modal.Footer>
         </Modal.Dialog>;
+        {this.state.error ? <Alert dismissible variant="danger">
+            <Alert.Heading>Select accounts and enter amount</Alert.Heading>
+        </Alert> : null}
       </div>
     );
   }
@@ -169,4 +159,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { updateAccountAction } )(TransactionModal);
+export default connect(mapStateToProps, { transferAccountAction, transferAccountHistoryAction } )(TransactionModal);

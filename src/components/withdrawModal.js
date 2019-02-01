@@ -4,37 +4,39 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import { updateAccountAction } from '../actions/actions'
+import { updateAccountAction, transferAccountHistoryAction } from '../actions/actions'
 
 
 class WithdrawModal extends Component {
 
   state = {
-    addType: "Account",
-    addRate: "",
+    withdrawType: "Account",
+    balance: "",
     value: "",
-    index: ""
+    index: "",
+    error: false
   }
 
   handleSelection = (event) => {
-    console.dir(event.target.attributes[3].value)
-    console.dir(event.target.id)
-    console.dir(event.target)
     this.setState({
-      addType: event.target.id,
-      addRate: event.target.attributes[3].value,
+      withdrawType: event.target.id,
+      balance: event.target.attributes[3].value,
       index: event.target.type
     })
   }
 
   handleSave = () => {
-    let value = parseInt(this.state.value)
-    let rate = parseInt(this.state.addRate)
-    let newAccount = this.props.accounts.accounts
-    newAccount[this.state.index] = {type:this.state.addType, amount:(rate - value)}
-    console.log(newAccount, value)
-    this.props.updateAccountAction(newAccount)
-    this.props.closeModal("addModal")
+    if(this.state.withdrawType !== "Account" && this.state.value > 0){
+      let value = parseInt(this.state.value)
+      let rate = parseInt(this.state.balance)
+      let newAccount = this.props.accounts.accounts
+      newAccount[this.state.index] = {type:this.state.withdrawType, amount:(rate - value), event:"Withdraw"}
+      this.props.updateAccountAction(newAccount)
+      this.props.transferAccountHistoryAction({type:this.state.withdrawType, amount:value, event:"Withdraw"})
+      this.props.closeModal("withdrawModal")
+    } else {
+      this.setState({ error: true })
+    }
   }
 
   handleChange = (e) => {
@@ -53,13 +55,13 @@ class WithdrawModal extends Component {
       <div>
         <Modal.Dialog>
           <Modal.Header>
-            <Modal.Title>Add Account</Modal.Title>
+            <Modal.Title>Withdraw</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Dropdown>
               <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.addType}
+                {this.state.withdrawType}
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
@@ -90,4 +92,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { updateAccountAction } )(WithdrawModal);
+export default connect(mapStateToProps, { updateAccountAction, transferAccountHistoryAction} )(WithdrawModal);

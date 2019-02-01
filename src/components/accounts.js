@@ -7,7 +7,7 @@ class Accounts extends Component {
 
 
   render() {
-    console.log(this.props.accounts)
+    console.log(this.props)
     let accountList = Object.keys(this.props.accounts.accounts).map(account =>{
       return (
         <tr key={this.props.accounts.accounts[account].type}>
@@ -29,7 +29,9 @@ class Accounts extends Component {
 }
 const mapStateToProps = state => {
   return{
-    accounts: state.accounts
+    accounts: state.accounts,
+    conversions: state.conversions,
+    history: state.history
   }
 }
 

@@ -25,3 +25,21 @@ export const updateAccountAction = (updatedAccount => {
     }
   }
 })
+
+export const transferAccountAction = (updatedAccount => {
+  return {
+    type: "TRANSFER",
+    payload: {
+      updatedAccount: updatedAccount,
+    }
+  }
+})
+
+export const transferAccountHistoryAction = (updatedAccount => {
+  return {
+    type: "TRANSFER_HISTORY",
+    payload: {
+      updatedAccount: updatedAccount,
+    }
+  }
+})

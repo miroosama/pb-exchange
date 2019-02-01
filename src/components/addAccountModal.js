@@ -5,22 +5,23 @@ import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
-import { addAccountAction} from '../actions/actions'
+import { addAccountAction, transferAccountHistoryAction } from '../actions/actions'
 
 
 class AddAccountModal extends Component {
 
   state = {
     addType: "Account",
-    addRate: "",
+    balance: "",
     value: "",
-    error: false
+    error: false,
+    amountValid: false
   }
 
   handleSelection = (event) => {
     this.setState({
       addType: event.target.id,
-      addRate: event.target.attributes[2].value
+      balance: event.target.attributes[2].value
     })
   }
 
@@ -36,15 +37,15 @@ class AddAccountModal extends Component {
     let check = this.duplicateCheck()
     if(check.some(acc => acc === this.state.addType)){
       this.setState({error: true})
-      // this.props.closeModal("addModal")
-    } else {
+    } else if(this.state.value > 0 && this.state.addType !== "Account") {
       let index = (Object.keys(this.props.accounts.accounts).length += 1)
       let newAccount = {}
-      newAccount[index] = {type: this.state.addType, amount:parseInt(this.state.value)}
-      console.log(newAccount)
+      newAccount[index] = {type: this.state.addType, amount:parseInt(this.state.value), event: "Deposit"}
       this.props.addAccountAction(newAccount)
+      this.props.transferAccountHistoryAction({type: this.state.addType, amount:parseInt(this.state.value), event: "Deposit"})
       this.props.closeModal("addModal")
-
+    } else {
+      this.setState({amountValid: true})
     }
   }
 
@@ -54,8 +55,6 @@ class AddAccountModal extends Component {
 
 
   render() {
-    console.log(Object.keys(this.props.accounts.accounts).length)
-    console.log(this.props.conversions.conversions)
     let accountsDropdown = Object.keys(this.props.conversions.conversions).map(account =>{
             return (
               <Dropdown.Item bsprefix="dropdown" id={account} key={account} value={this.props.conversions.conversions[account]} onClick={this.handleSelection}>{account}</Dropdown.Item>
@@ -94,6 +93,9 @@ class AddAccountModal extends Component {
         {this.state.error ? <Alert dismissible variant="danger">
             <Alert.Heading>Account already exists</Alert.Heading>
         </Alert> : null}
+        {this.state.amountValid ? <Alert dismissible variant="danger">
+            <Alert.Heading>Select account and enter amount</Alert.Heading>
+        </Alert> : null}
       </div>
     );
   }
@@ -105,4 +107,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { addAccountAction } )(AddAccountModal);
+export default connect(mapStateToProps, { addAccountAction, transferAccountHistoryAction } )(AddAccountModal);

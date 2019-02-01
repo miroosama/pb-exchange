@@ -29,26 +29,32 @@ class App extends Component {
   }
 
   handleTransfer = () => {
-    this.setState({ transactionModalOpen: !this.state.transactionModalOpen })
+    this.setState({ transactionModalOpen: !this.state.transactionModalOpen, addModalOpen: false, depositModalOpen: false, withdrawModalOpen:false })
   }
 
   handleAdd = () => {
-    this.setState({ addModalOpen: !this.state.addModalOpen })
+    this.setState({ addModalOpen: !this.state.addModalOpen, transactionModalOpen: false, withdrawModalOpen: false, depositModal: false })
   }
 
   handleDeposit = () => {
-    this.setState({ depositModalOpen: !this.state.depositModalOpen })
+    this.setState({ depositModalOpen: !this.state.depositModalOpen, withdrawModalOpen: false, transactionModalOpen: false, addModalOpen: false })
   }
 
   handleWithdraw = () => {
-    this.setState({ withdrawModalOpen: !this.state.withdrawModalOpen })
+    this.setState({ withdrawModalOpen: !this.state.withdrawModalOpen, transactionModalOpen: false, depositModalOpen: false, addModalOpen: false })
   }
 
   handleCloseModal = (modal) => {
     if(modal === "addModal"){
     this.setState({addModalOpen: false})
-  } else {
+  } else if(modal === "transactionModal"){
     this.setState({transactionModalOpen: false})
+  }
+  else if(modal === "depositModal"){
+    this.setState({depositModalOpen: false})
+  }
+  else if (modal === "withdrawModal"){
+    this.setState({withdrawModalOpen: false})
   }
 }
 
@@ -65,7 +71,7 @@ class App extends Component {
           </Navbar>
           <h1>Accounts</h1>
           <Accounts />
-          {this.state.transactionModalOpen ? <TransactionModal /> : null}
+          {this.state.transactionModalOpen ? <TransactionModal closeModal={this.handleCloseModal} /> : null}
           {this.state.addModalOpen ? <AddAccountModal closeModal={this.handleCloseModal} /> : null}
           {this.state.depositModalOpen ? <DepositModal closeModal={this.handleCloseModal} /> : null}
           {this.state.withdrawModalOpen ? <WithdrawModal closeModal={this.handleCloseModal} /> : null}
