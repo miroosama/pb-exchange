@@ -54,7 +54,7 @@ class WithdrawModal extends Component {
     })
     return (
       <div>
-        <Modal show={true}>
+        <Modal show={true} onHide={() => {this.props.closeModal("withdrawModal")}}>
           <Modal.Header>
             <Modal.Title>Withdraw</Modal.Title>
           </Modal.Header>

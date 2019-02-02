@@ -5,6 +5,8 @@ import AddAccountModal from './components/addAccountModal'
 import DepositModal from './components/depositModal'
 import WithdrawModal from './components/withdrawModal'
 import ExchangeChart from './components/exchangeChart'
+import TransactionHistory from './components/history'
+import RatesList from './components/ratesList'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
 import DropdownButton from 'react-bootstrap/DropdownButton'
@@ -20,7 +22,9 @@ class App extends Component {
     addModalOpen: false,
     depositModalOpen: false,
     withdrawModalOpen: false,
-    rates: false
+    rates: false,
+    ratesList: false,
+    history: false
   }
 
   componentDidMount(){
@@ -60,11 +64,23 @@ class App extends Component {
   }
   else if (modal === "withdrawModal"){
     this.setState({withdrawModalOpen: false})
+  } else if (modal === "ratesList"){
+    this.setState({ratesList: false})
+  } else if(modal === "history") {
+    this.setState({history: false})
   }
 }
 
-  handleRates = () =>{
+  handleRates = () => {
     this.setState({rates: !this.state.rates})
+  }
+
+  handleRatesList = () => {
+    this.setState({ratesList: !this.state.ratesList})
+  }
+
+  handleHistory = () => {
+    this.setState({history: !this.state.history})
   }
 
 
@@ -82,8 +98,8 @@ class App extends Component {
              <ButtonToolbar>
               <DropdownButton drop="left" variant="secondary" title="Options" id={`dropdown-button-drop-left`}key="left">
                 <Dropdown.Item key="1" onClick={this.handleRates}>Exchange Rates Chart</Dropdown.Item>
-                <Dropdown.Item key="2" onClick={this.handleRates}>Exchange Rates List</Dropdown.Item>
-                <Dropdown.Item key="3">Another action</Dropdown.Item>
+                <Dropdown.Item key="2" onClick={this.handleRatesList}>Exchange Rates List</Dropdown.Item>
+                <Dropdown.Item key="3" onClick={this.handleHistory}>Transaction History</Dropdown.Item>
               </DropdownButton>
              </ButtonToolbar>
           </Navbar>
@@ -93,7 +109,9 @@ class App extends Component {
           {this.state.addModalOpen ? <AddAccountModal closeModal={this.handleCloseModal} /> : null}
           {this.state.depositModalOpen ? <DepositModal closeModal={this.handleCloseModal} /> : null}
           {this.state.withdrawModalOpen ? <WithdrawModal closeModal={this.handleCloseModal} /> : null}
-          {this.state.rates ? <ExchangeChart /> : null}
+          {this.state.rates ? <ExchangeChart closeModal={this.handleCloseModal} /> : null}
+          {this.state.ratesList ? <RatesList closeModal={this.handleCloseModal} /> : null}
+          {this.state.history ? <TransactionHistory closeModal={this.handleCloseModal} /> : null}
       </div>
     );
   }

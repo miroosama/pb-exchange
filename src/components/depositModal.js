@@ -55,7 +55,7 @@ class DepositModal extends Component {
     })
     return (
       <div>
-        <Modal show={true}>
+        <Modal show={true} onHide={() => {this.props.closeModal("depositModal")}}>
           <Modal.Header>
             <Modal.Title>Deposit</Modal.Title>
           </Modal.Header>

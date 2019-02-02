@@ -78,7 +78,7 @@ class TransactionModal extends Component {
       let newAccount2 = this.props.accounts.accounts
       newAccount2[this.state.index2] = {type:this.state.txType2, amount:(rate2 + convertedValue)}
       this.props.transferAccountAction(newAccount2)
-      let accHistory = {from: this.state.txType, to:this.state.txType2, amount: convertedValue, event:"transfer"}
+      let accHistory = {type: this.state.txType, to:this.state.txType2, amount: convertedValue, event:"Transfer"}
       this.props.transferAccountHistoryAction(accHistory)
       this.props.closeModal("transactionModal")
     } else {
@@ -107,7 +107,7 @@ class TransactionModal extends Component {
     })
     return (
       <div>
-        <Modal show={true}>
+        <Modal show={true} onHide={() => {this.props.closeModal("transactionModal")}}>
           <Modal.Header>
             <Modal.Title>Transfer</Modal.Title>
           </Modal.Header>

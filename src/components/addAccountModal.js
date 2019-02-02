@@ -62,7 +62,7 @@ class AddAccountModal extends Component {
         })
     return (
       <div>
-      <Modal show={true}>
+      <Modal show={true} onHide={() => {this.props.closeModal("addModal")}}>
           <Modal.Header>
             <Modal.Title>Add Account</Modal.Title>
           </Modal.Header>

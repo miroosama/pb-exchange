@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux"
 import {Bar} from 'react-chartjs-2'
+import Button from 'react-bootstrap/Button'
 
 class ExchangeChart extends Component {
 
@@ -25,7 +26,7 @@ state = {
       })
     data["labels"] = labels
     data["datasets"] = [{
-        label: "Exchange Rate",
+        label: "Exchange Rate to EUR",
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: rates,
@@ -36,8 +37,8 @@ state = {
 
 
   render(){
-console.log(this.props.conversions.conversions)
     return ( <div>
+      <Button variant="secondary" onClick={() => {this.props.closeModal("rates")}}>Close</Button>
       < Bar
             data={this.state.data}
             />

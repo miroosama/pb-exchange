@@ -5,27 +5,6 @@ import Table from 'react-bootstrap/Table'
 
 class Accounts extends Component {
 
-  state = {
-    total: ""
-  }
-
-  // componentDidMount(){
-  //   this.totalBalance()
-  // }
-  //
-  //
-  // totalBalance = () => {
-  //   let accs = Object.keys(this.props.accounts.accounts).map(acc =>{
-  //     Object.keys(this.props.conversions.conversions).forEach(con =>{
-  //       if(this.props.accounts.accounts[acc].type !== "Eur" && this.props.accounts.accounts[acc].type === con){
-  //         console.log(this.props.accounts.accounts[acc].value * this.props.conversions.conversions[con])
-  //       }
-  //     })
-  //   })
-  //
-  // }
-
-
   render() {
     let accs = this.props.accounts.accounts[1].amount
     Object.keys(this.props.accounts.accounts).forEach(acc =>{
