@@ -19,6 +19,8 @@ state = {
       let rates = Object.keys(this.props.conversions.conversions).map(con => {
         if(this.props.conversions.conversions[con] < 10){
         return this.props.conversions.conversions[con]
+      } else {
+        return null
       }
       })
       let labels = Object.keys(this.props.conversions.conversions).map(con => {

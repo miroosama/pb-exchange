@@ -119,10 +119,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return{
-    conversions: state.conversions
-  }
-}
+// const mapStateToProps = state => {
+//   return{
+//     conversions: state.conversions
+//   }
+// }
 
-export default connect(mapStateToProps, { conversionAction })(App);
+export default connect(null, { conversionAction })(App);
