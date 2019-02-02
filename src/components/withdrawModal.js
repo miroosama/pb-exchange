@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
 import { updateAccountAction, transferAccountHistoryAction } from '../actions/actions'
 
 
@@ -53,7 +54,7 @@ class WithdrawModal extends Component {
     })
     return (
       <div>
-        <Modal.Dialog>
+        <Modal show={true}>
           <Modal.Header>
             <Modal.Title>Withdraw</Modal.Title>
           </Modal.Header>
@@ -80,7 +81,10 @@ class WithdrawModal extends Component {
             <Button variant="secondary" onClick={() => {this.props.closeModal("withdrawModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>
           </Modal.Footer>
-        </Modal.Dialog>;
+          {this.state.error ? <Alert dismissible variant="danger">
+              <Alert.Heading>Select account and enter amount</Alert.Heading>
+          </Alert> : null}
+        </Modal>;
       </div>
     );
   }

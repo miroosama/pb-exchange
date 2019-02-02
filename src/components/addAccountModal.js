@@ -62,7 +62,7 @@ class AddAccountModal extends Component {
         })
     return (
       <div>
-        <Modal.Dialog>
+      <Modal show={true}>
           <Modal.Header>
             <Modal.Title>Add Account</Modal.Title>
           </Modal.Header>
@@ -89,13 +89,13 @@ class AddAccountModal extends Component {
             <Button variant="secondary" onClick={() => {this.props.closeModal("addModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>
           </Modal.Footer>
-        </Modal.Dialog>
-        {this.state.error ? <Alert dismissible variant="danger">
-            <Alert.Heading>Account already exists</Alert.Heading>
-        </Alert> : null}
-        {this.state.amountValid ? <Alert dismissible variant="danger">
-            <Alert.Heading>Select account and enter amount</Alert.Heading>
-        </Alert> : null}
+          {this.state.error ? <Alert dismissible variant="danger">
+              <Alert.Heading>Account already exists</Alert.Heading>
+          </Alert> : null}
+          {this.state.amountValid ? <Alert dismissible variant="danger">
+              <Alert.Heading>Select account and enter amount</Alert.Heading>
+          </Alert> : null}
+        </Modal>
       </div>
     );
   }
