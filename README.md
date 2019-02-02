@@ -11,7 +11,7 @@ Redux and Redux Thunk allows data to be accessed and manipulated from the siblin
 
 React Bootstrap
 
-ChartJs easily handles data with wide ranges for some visualization
+ChartJs presents an exchange rate visualization
 
 Enzyme to write isolated tests
 
