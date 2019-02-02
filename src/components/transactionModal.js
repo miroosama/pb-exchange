@@ -39,11 +39,12 @@ class TransactionModal extends Component {
   }
 
   handleSave = () => {
+console.log("first", this.state)
     if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2) && (parseFloat(this.state.balance) >= this.state.value)){
       let value = parseFloat(this.state.value)
-      let rate = parseFloat(this.state.balance)
+      let bal = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
-      newAccount[this.state.index] = {type:this.state.txType, amount:(rate - value)}
+      newAccount[this.state.index] = {type:this.state.txType, amount:(bal - value)}
       this.props.transferAccountAction(newAccount)
       this.exchange()
     }else {
@@ -52,6 +53,7 @@ class TransactionModal extends Component {
   }
 
   exchange = () =>{
+    console.log("sec", this.state)
     if(this.state.txType === "EUR"){
       let conversionRate = this.props.conversions.conversions[this.state.txType2]
       let value = parseFloat(this.state.value)
@@ -73,10 +75,11 @@ class TransactionModal extends Component {
   }
 
   completedExchange = (convertedValue) => {
+    console.log("third", this.state)
       if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2)){
-      let rate2 = parseFloat(this.state.balance2)
+      let balance2 = parseFloat(this.state.balance2)
       let newAccount2 = this.props.accounts.accounts
-      newAccount2[this.state.index2] = {type:this.state.txType2, amount:(rate2 + convertedValue)}
+      newAccount2[this.state.index2] = {type:this.state.txType2, amount:(balance2 + convertedValue)}
       this.props.transferAccountAction(newAccount2)
       let accHistory = {type: this.state.txType, to:this.state.txType2, amount: convertedValue, event:"Transfer"}
       this.props.transferAccountHistoryAction(accHistory)

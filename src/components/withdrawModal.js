@@ -29,9 +29,9 @@ class WithdrawModal extends Component {
   handleSave = () => {
     if((this.state.withdrawType !== "Account") && (this.state.value > 0) && (parseFloat(this.state.balance) >= this.state.value)){
       let value = parseFloat(this.state.value)
-      let rate = parseFloat(this.state.balance)
+      let bal = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
-      newAccount[this.state.index] = {type:this.state.withdrawType, amount:(rate - value), event:"Withdraw"}
+      newAccount[this.state.index] = {type:this.state.withdrawType, amount:(bal - value), event:"Withdraw"}
       this.props.updateAccountAction(newAccount)
       this.props.transferAccountHistoryAction({type:this.state.withdrawType, amount:value, event:"Withdraw"})
       this.props.closeModal("withdrawModal")

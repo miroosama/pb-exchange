@@ -6,11 +6,11 @@ import Table from 'react-bootstrap/Table'
 class Accounts extends Component {
 
   render() {
-    let accs = this.props.accounts.accounts[1].amount
+    let accountsTotal = this.props.accounts.accounts[1].amount
     Object.keys(this.props.accounts.accounts).forEach(acc =>{
       Object.keys(this.props.conversions.conversions).forEach(con =>{
         if(this.props.accounts.accounts[acc].type !== "EUR" && this.props.accounts.accounts[acc].type === con){
-           accs += parseFloat(this.props.accounts.accounts[acc].amount).toFixed(2)/this.props.conversions.conversions[con]
+           accountsTotal += parseFloat(this.props.accounts.accounts[acc].amount).toFixed(2)/this.props.conversions.conversions[con]
         }
       })
     })
@@ -18,7 +18,7 @@ class Accounts extends Component {
       return (
         <tr key={this.props.accounts.accounts[account].type}>
           <td>{this.props.accounts.accounts[account].type}</td>
-          <td>{parseFloat(this.props.accounts.accounts[account].amount).toFixed(2)}</td>
+          <td>{parseFloat(Math.floor(this.props.accounts.accounts[account].amount * 100) / 100).toFixed(2)}</td>
         </tr>
     )
     })
@@ -28,7 +28,7 @@ class Accounts extends Component {
         <tbody>
         <tr key="Total">
           <td>Total</td>
-          <td>{parseFloat(accs).toFixed(2) + " EUR"}</td>
+          <td>{parseFloat(accountsTotal).toFixed(2) + " EUR"}</td>
         </tr>
         {accountList}
           </tbody>

@@ -29,9 +29,9 @@ class DepositModal extends Component {
   handleSave = () => {
       if(this.state.depType !== "Account" && this.state.value > 0){
       let value = parseFloat(this.state.value)
-      let rate = parseFloat(this.state.balance)
+      let bal = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
-      newAccount[this.state.index] = {type:this.state.depType, amount:(rate + value), event: "Deposit"}
+      newAccount[this.state.index] = {type:this.state.depType, amount:(bal + value), event: "Deposit"}
       this.props.updateAccountAction(newAccount)
       this.props.transferAccountHistoryAction({type:this.state.depType, amount:(value), event: "Deposit"})
       this.props.closeModal("depositModal")
