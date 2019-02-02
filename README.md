@@ -1,12 +1,8 @@
 Fork and clone repository
 
-run
-
 npm install
 
 npm start
-
-
 
 
 Npm dependencies include:
@@ -18,8 +14,6 @@ React Bootstrap
 ChartJs easily handles data with wide ranges for some visualization
 
 Enzyme to write isolated tests
-
-
 
 
 
