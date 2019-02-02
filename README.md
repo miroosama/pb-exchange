@@ -17,9 +17,9 @@ Enzyme to write isolated tests
 
 
 
-User starts with 1000 EUR and navigate through modals to add and manage their accounts
+User starts with 1000 EUR and navigate through modals to manage their accounts
 
-Options dropdowns organizes the presentation-only components such as transaction history and exchange rates
+Options dropdown organizes the presentation-only components such as transaction history and exchange rates
 
 
 
