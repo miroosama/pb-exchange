@@ -75,7 +75,6 @@ class TransactionModal extends Component {
   completedExchange = (convertedValue) => {
       if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2)){
       let rate2 = parseFloat(this.state.balance2)
-      console.log("here")
       let newAccount2 = this.props.accounts.accounts
       newAccount2[this.state.index2] = {type:this.state.txType2, amount:(rate2 + convertedValue)}
       this.props.transferAccountAction(newAccount2)

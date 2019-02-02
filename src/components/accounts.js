@@ -5,9 +5,36 @@ import Table from 'react-bootstrap/Table'
 
 class Accounts extends Component {
 
+  state = {
+    total: ""
+  }
+
+  // componentDidMount(){
+  //   this.totalBalance()
+  // }
+  //
+  //
+  // totalBalance = () => {
+  //   let accs = Object.keys(this.props.accounts.accounts).map(acc =>{
+  //     Object.keys(this.props.conversions.conversions).forEach(con =>{
+  //       if(this.props.accounts.accounts[acc].type !== "Eur" && this.props.accounts.accounts[acc].type === con){
+  //         console.log(this.props.accounts.accounts[acc].value * this.props.conversions.conversions[con])
+  //       }
+  //     })
+  //   })
+  //
+  // }
+
 
   render() {
-    console.log(this.props)
+    let accs = this.props.accounts.accounts[1].amount
+    Object.keys(this.props.accounts.accounts).forEach(acc =>{
+      Object.keys(this.props.conversions.conversions).forEach(con =>{
+        if(this.props.accounts.accounts[acc].type !== "EUR" && this.props.accounts.accounts[acc].type === con){
+           accs += parseInt(this.props.accounts.accounts[acc].amount)/this.props.conversions.conversions[con]
+        }
+      })
+    })
     let accountList = Object.keys(this.props.accounts.accounts).map(account =>{
       return (
         <tr key={this.props.accounts.accounts[account].type}>
@@ -20,6 +47,10 @@ class Accounts extends Component {
       <div>
         <Table striped bordered hover variant="light">
         <tbody>
+        <tr key="Total">
+          <td>Total</td>
+          <td>${parseFloat(accs).toFixed(2)}</td>
+        </tr>
         {accountList}
           </tbody>
         </Table>
@@ -30,8 +61,7 @@ class Accounts extends Component {
 const mapStateToProps = state => {
   return{
     accounts: state.accounts,
-    conversions: state.conversions,
-    history: state.history
+    conversions: state.conversions
   }
 }
 
