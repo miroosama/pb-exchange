@@ -68,6 +68,8 @@ class App extends Component {
     this.setState({ratesList: false})
   } else if(modal === "history") {
     this.setState({history: false})
+  } else {
+    this.setState({rates: false})
   }
 }
 
@@ -90,10 +92,10 @@ class App extends Component {
           <Navbar bg="light" variant="light" expand="lg" className="justify-content-between">
              <Navbar.Brand bg="light">Paybear Exchange</Navbar.Brand>
              <ButtonToolbar>
-             <Button onClick={this.handleTransfer} variant="outline-success">Transfer</Button>
-             <Button onClick={this.handleAdd} variant="outline-success">Add Account</Button>
-             <Button onClick={this.handleDeposit} variant="outline-success">Deposit</Button>
-             <Button onClick={this.handleWithdraw} variant="outline-success">Withdraw</Button>
+             <Button onClick={this.handleTransfer} variant="outline-primary">Transfer</Button>
+             <Button onClick={this.handleAdd} variant="outline-primary">Add Account</Button>
+             <Button onClick={this.handleDeposit} variant="outline-primary">Deposit</Button>
+             <Button onClick={this.handleWithdraw} variant="outline-primary">Withdraw</Button>
              </ButtonToolbar>
              <ButtonToolbar>
               <DropdownButton drop="left" variant="secondary" title="Options" id={`dropdown-button-drop-left`}key="left">

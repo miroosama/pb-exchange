@@ -18,7 +18,7 @@ class Accounts extends Component {
       return (
         <tr key={this.props.accounts.accounts[account].type}>
           <td>{this.props.accounts.accounts[account].type}</td>
-          <td>${this.props.accounts.accounts[account].amount}</td>
+          <td>${parseFloat(this.props.accounts.accounts[account].amount).toFixed(2)}</td>
         </tr>
     )
     })

@@ -27,7 +27,7 @@ class WithdrawModal extends Component {
   }
 
   handleSave = () => {
-    if((this.state.withdrawType !== "Account") && (this.state.value > 0) && (this.state.balance >= this.state.value)){
+    if((this.state.withdrawType !== "Account") && (this.state.value > 0) && (parseInt(this.state.balance) >= this.state.value)){
       let value = parseInt(this.state.value)
       let rate = parseInt(this.state.balance)
       let newAccount = this.props.accounts.accounts

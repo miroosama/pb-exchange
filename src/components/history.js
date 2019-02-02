@@ -9,26 +9,34 @@ class TransactionHistory extends Component {
 
   render() {
     let count = 0
-    let history = this.props.accounts.history.map(tx =>{
-      console.log(tx)
-      if((tx.event === "Transfer") || (tx.event === "Withdraw")){
-      return (<tr key={count++}>
-        <td>{tx.event}</td>
-        <td>{tx.type}</td>
-        <td>{tx.to}</td>
-        <td>${parseFloat(tx.amount).toFixed(2)}</td>
-      </tr>
-    )
+    let hist = []
+    this.props.accounts.history.forEach(tx =>{
+        if(tx.event === "Transfer"){
+          hist.unshift(<tr key={count++}>
+            <td>{tx.event}</td>
+            <td>{tx.type}</td>
+            <td>{tx.to}</td>
+            <td>${parseFloat(tx.amount).toFixed(2) + " " + tx.to }</td>
+          </tr>
+        )
+    } else if(tx.event === "Deposit") {
+          hist.unshift(<tr key={count++}>
+            <td>{tx.event}</td>
+            <td>{tx.to}</td>
+            <td>{tx.type}</td>
+            <td>${parseFloat(tx.amount).toFixed(2) + " " + tx.type}</td>
+          </tr>
+        )
     } else {
-      return (<tr key={count++}>
-        <td>{tx.event}</td>
-        <td>{tx.to}</td>
-        <td>{tx.type}</td>
-        <td>${parseFloat(tx.amount).toFixed(2)}</td>
-      </tr>
-    )
+      hist.unshift(<tr key={count++}>
+            <td>{tx.event}</td>
+            <td>{tx.type}</td>
+            <td>{tx.to}</td>
+            <td>${parseFloat(tx.amount).toFixed(2) + " " + tx.type }</td>
+          </tr>
+        )
     }
-    })
+  })
     return (
       <div>
       <Modal show={true} onHide={() => {this.props.closeModal("history")}}>
@@ -47,7 +55,7 @@ class TransactionHistory extends Component {
             </tr>
           </thead>
           <tbody>
-            {history}
+            {hist}
           </tbody>
           </Table>
         </Modal.Body>
