@@ -39,7 +39,6 @@ class TransactionModal extends Component {
   }
 
   handleSave = () => {
-console.log("first", this.state)
     if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2) && (parseFloat(this.state.balance) >= this.state.value)){
       let value = parseFloat(this.state.value)
       let bal = parseFloat(this.state.balance)
@@ -53,7 +52,6 @@ console.log("first", this.state)
   }
 
   exchange = () =>{
-    console.log("sec", this.state)
     if(this.state.txType === "EUR"){
       let conversionRate = this.props.conversions.conversions[this.state.txType2]
       let value = parseFloat(this.state.value)
@@ -75,7 +73,6 @@ console.log("first", this.state)
   }
 
   completedExchange = (convertedValue) => {
-    console.log("third", this.state)
       if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2)){
       let balance2 = parseFloat(this.state.balance2)
       let newAccount2 = this.props.accounts.accounts

@@ -28,7 +28,7 @@ class Accounts extends Component {
         <tbody>
         <tr key="Total">
           <td>Total</td>
-          <td>{parseFloat(accountsTotal).toFixed(2) + " EUR"}</td>
+          <td>{parseFloat(Math.floor(accountsTotal * 100) / 100).toFixed(2) + " EUR"}</td>
         </tr>
         {accountList}
           </tbody>
