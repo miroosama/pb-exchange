@@ -39,7 +39,7 @@ class TransactionModal extends Component {
   }
 
   handleSave = () => {
-    if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2)){
+    if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2) && (this.state.balance >= this.state.value)){
       let value = parseFloat(this.state.value)
       let rate = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
