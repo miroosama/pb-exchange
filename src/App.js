@@ -88,14 +88,14 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" bsstyle="light">
-          <Navbar bg="light" variant="light" expand="lg" className="justify-content-between">
-             <Navbar.Brand bg="light">Paybear Exchange</Navbar.Brand>
+      <div className="App">
+          <Navbar bg="secondary" expand="lg" className="justify-content-between">
+             <Navbar.Brand variant="primary" style={{color:"white"}}>Paybear Exchange</Navbar.Brand>
              <ButtonToolbar>
-             <Button onClick={this.handleTransfer} variant="outline-primary">Transfer</Button>
-             <Button onClick={this.handleAdd} variant="outline-primary">Add Account</Button>
-             <Button onClick={this.handleDeposit} variant="outline-primary">Deposit</Button>
-             <Button onClick={this.handleWithdraw} variant="outline-primary">Withdraw</Button>
+             <Button onClick={this.handleTransfer} variant="primary">Transfer</Button>
+             <Button onClick={this.handleAdd} variant="primary">Add Account</Button>
+             <Button onClick={this.handleDeposit} variant="primary">Deposit</Button>
+             <Button onClick={this.handleWithdraw} variant="primary">Withdraw</Button>
              </ButtonToolbar>
              <ButtonToolbar>
               <DropdownButton drop="left" variant="secondary" title="Options" id={`dropdown-button-drop-left`}key="left">
@@ -105,7 +105,7 @@ class App extends Component {
               </DropdownButton>
              </ButtonToolbar>
           </Navbar>
-          <h1>Accounts</h1>
+          <h1 style={{color:"RoyalBlue"}}>Accounts</h1>
           <Accounts/>
           {this.state.transactionModalOpen ? <TransactionModal closeModal={this.handleCloseModal}/> : null}
           {this.state.addModalOpen ? <AddAccountModal closeModal={this.handleCloseModal} /> : null}
@@ -119,10 +119,5 @@ class App extends Component {
   }
 }
 
-// const mapStateToProps = state => {
-//   return{
-//     conversions: state.conversions
-//   }
-// }
 
 export default connect(null, { conversionAction })(App);

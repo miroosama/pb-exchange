@@ -28,11 +28,10 @@ class DepositModal extends Component {
 
   handleSave = () => {
       if(this.state.depType !== "Account" && this.state.value > 0){
-      let value = parseInt(this.state.value)
-      let rate = parseInt(this.state.balance)
+      let value = parseFloat(this.state.value)
+      let rate = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
       newAccount[this.state.index] = {type:this.state.depType, amount:(rate + value), event: "Deposit"}
-      console.log(newAccount, value)
       this.props.updateAccountAction(newAccount)
       this.props.transferAccountHistoryAction({type:this.state.depType, amount:(value), event: "Deposit"})
       this.props.closeModal("depositModal")
@@ -59,25 +58,22 @@ class DepositModal extends Component {
           <Modal.Header>
             <Modal.Title>Deposit</Modal.Title>
           </Modal.Header>
-
-          <Modal.Body>
-            <Dropdown>
-              <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.depType}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
-                {accountList}
-              </Dropdown.Menu>
-            </Dropdown>
-            <Form onChange={this.handleChange}>
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control type="number" placeholder="0" />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-
+            <Modal.Body>
+              <Dropdown>
+                <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
+                  {this.state.depType}
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
+                  {accountList}
+                </Dropdown.Menu>
+              </Dropdown>
+              <Form onChange={this.handleChange}>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label>Amount</Form.Label>
+                  <Form.Control type="number" placeholder="0" />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => {this.props.closeModal("depositModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>

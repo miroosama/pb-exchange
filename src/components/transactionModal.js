@@ -39,7 +39,7 @@ class TransactionModal extends Component {
   }
 
   handleSave = () => {
-    if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2) && (parseInt(this.state.balance) >= this.state.value)){
+    if((this.state.value > 0) && (this.state.txType !== "Account") && (this.state.txType2 !== "Account") && (this.state.txType !== this.state.txType2) && (parseFloat(this.state.balance) >= this.state.value)){
       let value = parseFloat(this.state.value)
       let rate = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
@@ -111,34 +111,30 @@ class TransactionModal extends Component {
           <Modal.Header>
             <Modal.Title>Transfer</Modal.Title>
           </Modal.Header>
-
-          <Modal.Body>
-            <Dropdown>
-              <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.txType}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
-                {accountList}
-              </Dropdown.Menu>
-            </Dropdown>
-            <Form onChange={this.handleChange}>
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control type="number" placeholder="0" />
-              </Form.Group>
-            </Form>
-            <Dropdown>
-              <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.txType2}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
-                {accountList2}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Modal.Body>
-
+            <Modal.Body>
+              <Dropdown>
+                <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
+                  {this.state.txType}
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
+                  {accountList}
+                </Dropdown.Menu>
+              </Dropdown>
+              <Form onChange={this.handleChange}>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label>Amount</Form.Label>
+                  <Form.Control type="number" placeholder="0" />
+                </Form.Group>
+              </Form>
+              <Dropdown>
+                <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
+                  {this.state.txType2}
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
+                  {accountList2}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => {this.props.closeModal("transactionModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>

@@ -41,9 +41,9 @@ state = {
   render(){
     return ( <div>
       <Button variant="secondary" onClick={() => {this.props.closeModal("rates")}}>Close</Button>
-      < Bar
-            data={this.state.data}
-            />
+        < Bar
+          data={this.state.data}
+        />
       </div>
     )
   }

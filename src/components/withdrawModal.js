@@ -27,9 +27,9 @@ class WithdrawModal extends Component {
   }
 
   handleSave = () => {
-    if((this.state.withdrawType !== "Account") && (this.state.value > 0) && (parseInt(this.state.balance) >= this.state.value)){
-      let value = parseInt(this.state.value)
-      let rate = parseInt(this.state.balance)
+    if((this.state.withdrawType !== "Account") && (this.state.value > 0) && (parseFloat(this.state.balance) >= this.state.value)){
+      let value = parseFloat(this.state.value)
+      let rate = parseFloat(this.state.balance)
       let newAccount = this.props.accounts.accounts
       newAccount[this.state.index] = {type:this.state.withdrawType, amount:(rate - value), event:"Withdraw"}
       this.props.updateAccountAction(newAccount)
@@ -58,25 +58,22 @@ class WithdrawModal extends Component {
           <Modal.Header>
             <Modal.Title>Withdraw</Modal.Title>
           </Modal.Header>
-
-          <Modal.Body>
-            <Dropdown>
-              <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
-                {this.state.withdrawType}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
-                {accountList}
-              </Dropdown.Menu>
-            </Dropdown>
-            <Form onChange={this.handleChange}>
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control type="number" placeholder="0" />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-
+            <Modal.Body>
+              <Dropdown>
+                <Dropdown.Toggle value="Account" variant="success" id="dropdown-basic">
+                  {this.state.withdrawType}
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{overflowY: 'scroll', maxHeight: "300px"}}>
+                  {accountList}
+                </Dropdown.Menu>
+              </Dropdown>
+              <Form onChange={this.handleChange}>
+                <Form.Group controlId="exampleForm.ControlInput1">
+                  <Form.Label>Amount</Form.Label>
+                  <Form.Control type="number" placeholder="0" />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => {this.props.closeModal("withdrawModal")}}>Close</Button>
             <Button onClick={this.handleSave} variant="primary">Save changes</Button>

@@ -12,7 +12,7 @@ class RatesList extends Component {
       return (
         <tr key={type}>
           <td>{type}</td>
-          <td>${this.props.conversions.conversions[type]}</td>
+          <td>{this.props.conversions.conversions[type]}</td>
         </tr>
     )
   })
@@ -23,15 +23,13 @@ class RatesList extends Component {
         <Modal.Header>
           <Modal.Title>Exchange Rate to EUR</Modal.Title>
         </Modal.Header>
-
-        <Modal.Body>
-          <Table striped bordered hover variant="light">
-          <tbody>
-          {ratesList}
-            </tbody>
-          </Table>
-        </Modal.Body>
-
+          <Modal.Body>
+            <Table striped bordered hover variant="light">
+            <tbody>
+            {ratesList}
+              </tbody>
+            </Table>
+          </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => {this.props.closeModal("ratesList")}}>Close</Button>
         </Modal.Footer>

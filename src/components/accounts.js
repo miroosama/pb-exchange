@@ -10,7 +10,7 @@ class Accounts extends Component {
     Object.keys(this.props.accounts.accounts).forEach(acc =>{
       Object.keys(this.props.conversions.conversions).forEach(con =>{
         if(this.props.accounts.accounts[acc].type !== "EUR" && this.props.accounts.accounts[acc].type === con){
-           accs += parseInt(this.props.accounts.accounts[acc].amount)/this.props.conversions.conversions[con]
+           accs += parseFloat(this.props.accounts.accounts[acc].amount).toFixed(2)/this.props.conversions.conversions[con]
         }
       })
     })
@@ -18,7 +18,7 @@ class Accounts extends Component {
       return (
         <tr key={this.props.accounts.accounts[account].type}>
           <td>{this.props.accounts.accounts[account].type}</td>
-          <td>${parseFloat(this.props.accounts.accounts[account].amount).toFixed(2)}</td>
+          <td>{parseFloat(this.props.accounts.accounts[account].amount).toFixed(2)}</td>
         </tr>
     )
     })
@@ -28,7 +28,7 @@ class Accounts extends Component {
         <tbody>
         <tr key="Total">
           <td>Total</td>
-          <td>${parseFloat(accs).toFixed(2)}</td>
+          <td>{parseFloat(accs).toFixed(2) + " EUR"}</td>
         </tr>
         {accountList}
           </tbody>
